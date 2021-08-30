@@ -61,22 +61,21 @@
 ![image](https://user-images.githubusercontent.com/87048693/131333817-c46670e3-fd19-4539-92d9-3a6b00d2a7ee.png)
 
 
-1. order의 주문, reservation의 예약과 취소, payment의 결제, customer의 mypage 등은 그와 연결된 command 와 event 들에 의하여 트랜잭션이 유지되어야 하는 단위로 그들 끼리 묶어줌(바운디드 컨텍스트)
+1. order의 주문, ship의 배송, payment의 결제, customer의 mypage 등은 그와 연결된 command 와 event 들에 의하여 트랜잭션이 유지되어야 하는 단위로 그들 끼리 묶어줌(바운디드 컨텍스트)
 1. 도메인 서열 분리 
-   - Core Domain:  order, reservation
+   - Core Domain:  order, ship
    - Supporting Domain: customer
    - General Domain : payment
 
 
 ### 기능 요구사항을 커버하는지 검증
-1. 고객이 원하는 객실을 선택 하여 예약한다.(OK)
+1. 고객이 원하는 옷을 선택 하여 주문한다.(OK)
 1. 고객이 결제 한다.(OK)
-1. 예약이 신청 되면 예약 신청 내역이 호텔에 전달 된다.(OK)
-1. 호텔이 확인 하여 예약을 확정 한다.(OK)
-1. 고객이 예약 신청을 취소할 수 있다.(OK)
-1. 예약이 취소 되면 호텔 예약이 취소 된다.(OK)
-1. 고객이 예약 진행 상황을 조회 한다.(OK)
-1. 고객이 예약 취소를 하면 예약 정보는 삭제 상태로 업데이트 된다.(OK)
+1. 옷이 주문되면 판매자는 주문현황을 확인하고 배송을 한다.(OK)
+1. 고객이 주문 신청을 취소할 수 있다.(OK)
+1. 주문이 취소 되면 배송이 취소 된다.(OK)
+1. 고객이 주문 상황을 조회 한다.(OK)
+1. 고객이 주문을 취소를 하면 주문현황는 삭제 상태로 업데이트 된다.(OK)
 
 ### 비기능 요구사항을 커버하는지 검증
 1. 트랜잭션 
