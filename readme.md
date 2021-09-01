@@ -461,9 +461,6 @@ http http://localhost:8088/orders clothingid='HO' price=1200 address='BKhouse' c
 application.yml
 
 server:
-  port: 8080
-
----server:
   port: 8088
 
 ---
@@ -537,7 +534,6 @@ spring:
 
 server:
   port: 8080
-
 ```
 
 
