@@ -422,23 +422,24 @@ shipping 시스템은 order/payment와 완전히 분리되어있으며, 이벤�
 # 주문 처리
 http http://localhost:8088/orders clothingid='HO' price=1200 address='BKhouse' cnt=1 cardno='5524'   #Success
 ```
-![image](https://user-images.githubusercontent.com/87048623/129999950-ca9b0a5c-1b87-4eff-af3c-8b7fc4651ad0.png)
+![image](https://user-images.githubusercontent.com/87048693/131704227-f81e1314-527f-45c1-86ec-ccb2ca355c79.png)
 
 ```
 # 예약상태 확인
-http localhost:8084/mypages/4  # 예약상태 안바뀜 확인     
+http http://localhost:8088/myPages/1 # 배달으로 안바뀜 확인     
 ```
-![image](https://user-images.githubusercontent.com/87048623/130000011-0ea13f64-81c3-4ccc-bc53-94f97fb8d9ab.png)
+![image](https://user-images.githubusercontent.com/87048693/131704294-723eb003-9a5c-4795-9167-8543d4d90d98.png)
 
 ```
-# reservation 서비스 기동
-cd /home/project/team/hotelone/reservation
+# shipping 서비스 기동
+C:\dev\vs\clothing-store\shipping
 mvn spring-boot:run 
 
 # 예약상태 확인
-http localhost:8084/mypages/4   # 예약상태가 "Reservation Complete"로 확인
+http http://localhost:8088/myPages/1   # 상태가 "Shipped"로 확인
 ```
-![image](https://user-images.githubusercontent.com/87048623/130000098-fb46ed65-62d2-4ae5-93d5-1b92c72c0b3a.png)
+![image](https://user-images.githubusercontent.com/87048693/131704535-3b51b1f2-d403-47ec-a942-7d94c9dc0fed.png)
+
 
 
 ## API 게이트웨이(gateway)
