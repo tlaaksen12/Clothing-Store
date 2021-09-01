@@ -1,4 +1,4 @@
-# hotelone
+# clothingstore
 
 # 옷주문 서비스
 
