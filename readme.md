@@ -100,40 +100,56 @@
 분석/설계 단계에서 도출된 헥사고날 아키텍처에 따라, 각 BC별로 대변되는 마이크로 서비스들을 스프링부트로 구현하였다. 구현한 각 서비스를 로컬에서 실행하는 방법은 아래와 같다 (각자의 포트넘버는 8081 ~ 8084 이다)
 
 ```
-cd /home/project/team/hotelone/order
+C:\dev\vs\clothing-store\payment
 mvn spring-boot:run
 
-cd /home/project/team/hotelone/reservation
+C:\dev\vs\clothing-store\order
 mvn spring-boot:run 
 
-cd /home/project/team/hotelone/payment
+C:\dev\vs\clothing-store\shipping
 mvn spring-boot:run  
 
-cd /home/project/team/hotelone/customer
+C:\dev\vs\clothing-store\mypage
 mvn spring-boot:run 
 ```
 
 ## DDD 의 적용
 
-- 각 서비스내에 도출된 핵심 Aggregate Root 객체를 Entity 로 선언하였다: (예시는 paymentHistory 마이크로 서비스). 이때 가능한 현업에서 사용하는 언어 (유비쿼터스 랭귀지)를 그대로 사용하려고 노력했다.
+- 각 서비스내에 도출된 핵심 Aggregate Root 객체를 Entity 로 선언하였다: (예시는 shipping 마이크로 서비스). 이때 가능한 현업에서 사용하는 언어 (유비쿼터스 랭귀지)를 그대로 사용하려고 노력했다.
 
 ```
-package hotelone;
+package clothingstore;
 
 import javax.persistence.*;
 import org.springframework.beans.BeanUtils;
-import java.util.List;
 
 @Entity
-@Table(name="PaymentHistory_table")
-public class PaymentHistory {
+@Table(name="Shipping_table")
+public class Shipping {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
-    private Long orderId;
-    private Long cardNo;
+    private String clothingid;
     private String status;
+    private String address;
+    private String cnt;
+    private String orderId;
+
+    @PostPersist
+    public void onPostPersist(){
+        Shipped shipped = new Shipped();
+        BeanUtils.copyProperties(this, shipped);
+        shipped.publishAfterCommit();
+
+    }
+    @PostRemove
+    public void onPostRemove(){
+        ShippingCanceled shippingCanceled = new ShippingCanceled();
+        BeanUtils.copyProperties(this, shippingCanceled);
+        shippingCanceled.publishAfterCommit();
+
+    }
 
     public Long getId() {
         return id;
@@ -142,19 +158,12 @@ public class PaymentHistory {
     public void setId(Long id) {
         this.id = id;
     }
-    public Long getOrderId() {
-        return orderId;
+    public String getClothingid() {
+        return clothingid;
     }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
-    public Long getCardNo() {
-        return cardNo;
-    }
-
-    public void setCardNo(Long cardNo) {
-        this.cardNo = cardNo;
+    public void setClothingid(String clothingid) {
+        this.clothingid = clothingid;
     }
     public String getStatus() {
         return status;
@@ -163,13 +172,33 @@ public class PaymentHistory {
     public void setStatus(String status) {
         this.status = status;
     }
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+    public String getCnt() {
+        return cnt;
+    }
+
+    public void setCnt(String cnt) {
+        this.cnt = cnt;
+    }
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
 
 
 
 
-}
-```
-
+}```
+#무슨뜻이니
 - Entity Pattern 과 Repository Pattern 을 적용하여 JPA 를 통하여 다양한 데이터소스 유형 (RDB or NoSQL) 에 대한 별도의 처리가 없도록 데이터 접근 어댑터를 자동 생성하기 위하여 Spring Data REST 의 RestRepository 를 적용하였다
 ```
 package hotelone;
