@@ -330,10 +330,10 @@ public interface PaymentService {
 # 결제 (payment) 서비스를 잠시 내려놓음 (ctrl+c)
 
 #주문처리 #Fail
-http localhost:8081/orders name=kim roomType=double   
+ http http://localhost:8088/orders clothingid='HO' price=1200 address='BKhouse' cnt=1 cardno='5524'
 
 ```
-![image](https://user-images.githubusercontent.com/87048623/129999620-a66e42bc-0dd6-412c-903e-7175fd590d1d.png)
+![image](https://user-images.githubusercontent.com/87048693/131699734-83a828d9-4b89-4bbb-9e77-194d2f4d2154.png)
 
 ```
 #결제서비스 재기동
@@ -341,9 +341,10 @@ C:\dev\vs\clothing-store\payment
 mvn spring-boot:run
 
 #주문처리 #Success
-http localhost:8081/orders name=kim roomType=double  
+ http http://localhost:8088/orders clothingid='HO' price=1200 address='BKhouse' cnt=1 cardno='5524'
 ```
-![image](https://user-images.githubusercontent.com/87048623/129999773-53cdeb37-afd3-4e05-bd7a-9aea95d1be21.png)
+![image](https://user-images.githubusercontent.com/87048693/131699771-52ef9e0b-3197-4802-b3ce-58017f839ed7.png)
+
 
 
 ## 비동기식 호출 / 시간적 디커플링 / 장애격리 / 최종 (Eventual) 일관성 테스트
