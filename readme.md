@@ -283,9 +283,9 @@ http http://localhost:8088/myPages/1
 
 - 결제서비스를 호출하기 위하여 Stub과 (FeignClient) 를 이용하여 Service 대행 인터페이스 (Proxy) 를 구현 
 ```
-# (order) PaymentHistoryService.java
+# (order) PaymentService.java
 
-package hotelone.external;
+package clothingstore.external;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -294,13 +294,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.Date;
 
-@FeignClient(name="payment", url="${api.payment.url}")
-public interface PaymentHistoryService {
-
-    @RequestMapping(method= RequestMethod.POST, path="/paymentHistories")
-    public void pay(@RequestBody PaymentHistory paymentHistory);
+@FeignClient(name="payment", url="http://localhost:8088")
+public interface PaymentService {
+    @RequestMapping(method= RequestMethod.POST, path="/payments")
+    public void payment(@RequestBody Payment payment);
 
 }
+
+
 ```
 
 - 주문을 받은 직후(@PostPersist) 결제를 요청하도록 처리
@@ -313,18 +314,15 @@ public interface PaymentHistoryService {
         BeanUtils.copyProperties(this, ordered);
         ordered.publishAfterCommit();
 
-        //Following code causes dependency to external APIs
-        // it is NOT A GOOD PRACTICE. instead, Event-Policy mapping is recommended.
+        Payment payment = new Payment();
+        //payment.setId(this.id);
+        //payment.setCardno(this.cardno);
+        BeanUtils.copyProperties(ordered, payment);
+        payment.setOrderId(this.id.toString());
+        payment.setStatus("Ordered22");
+        OrderApplication.applicationContext.getBean(clothingstore.external.PaymentService.class).payment(payment);        
 
-//        hotelone.external.PaymentHistory paymentHistory = new hotelone.external.PaymentHistory();
-        PaymentHistory payment = new PaymentHistory();
-        System.out.println("this.id() : " + this.id);
-        payment.setOrderId(this.id);
-        payment.setStatus("Reservation OK");
-        // mappings goes here
-        OrderApplication.applicationContext.getBean(hotelone.external.PaymentHistoryService.class)
-            .pay(payment);
-
+    }
 ```
 
 - 동기식 호출에서는 호출 시간에 따른 타임 커플링이 발생하며, 결제 시스템이 장애가 나면 주문도 못받는다는 것을 확인:
@@ -339,7 +337,7 @@ http localhost:8081/orders name=kim roomType=double
 
 ```
 #결제서비스 재기동
-cd /home/project/team/hotelone/payment
+C:\dev\vs\clothing-store\payment
 mvn spring-boot:run
 
 #주문처리 #Success
