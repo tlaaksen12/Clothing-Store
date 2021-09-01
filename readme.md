@@ -265,15 +265,15 @@ http http://localhost:8088/myPages/3
 
 
 # 변경/재기동 후 주문 처리
-http localhost:8081/orders name=Park roomType=twin
+http http://localhost:8088/orders clothingid='HO' price=1200 address='BKhouse' cnt=1 cardno='5524'
 
 # 저장이 잘 되었는지 조회
-http localhost:8084/mypages/1
+http http://localhost:8088/myPages/1
 
 ```
 
-![image](https://user-images.githubusercontent.com/87048623/129999342-39d60491-b7e9-4a8c-a281-4c335deb3e4d.png)
-![image](https://user-images.githubusercontent.com/87048623/129999387-8f1ab984-21a1-4d0c-af5c-dd77c9f88f3c.png)
+![image](https://user-images.githubusercontent.com/87048693/131696970-ffcc3873-1f54-4945-b6ac-75967628c0f2.png)
+![image](https://user-images.githubusercontent.com/87048693/131696991-a09c9719-1972-43fe-8e2b-52eae3ecd212.png)
 
 
 
