@@ -219,14 +219,16 @@ public interface ShippingRepository extends PagingAndSortingRepository<Shipping,
 - 적용 후 REST API 의 테스트
 ```
 # order 서비스의 주문처리
-http localhost:8081/orders name=Lee roomType=suite
+http http://localhost:8088/orders clothingid='CA' price=1000 address='myhouse' cnt=1 cardno='1234'
 
-# reservation 서비스의 예약처리
-http localhost:8082/reservations orderId=1 status="confirmed"
+# shipping 서비스의 배송처리
+http http://localhost:8088/shippings orderId=1 status='shipped'
+
 
 ```
-![image](https://user-images.githubusercontent.com/87048623/129999165-c8f5fb73-59d7-4898-a2f5-cb47fbe2fbeb.png)
-![image](https://user-images.githubusercontent.com/87048623/129999197-63d85159-5847-48af-a02c-9aac3b9e2864.png)
+![image](https://user-images.githubusercontent.com/87048693/131695160-c2df4870-9fc9-436b-8d78-ddb0460d174f.png)
+![image](https://user-images.githubusercontent.com/87048693/131695174-bc53182b-ec3e-4556-8b1a-fd7edf5e7f4c.png)
+
 
 
 ## CQRS
@@ -235,9 +237,9 @@ http localhost:8082/reservations orderId=1 status="confirmed"
 
 ```
 # 주문 상태 확인
-http localhost:8084/mypages/1
+http http://localhost:8088/myPages/3
 ```
-![image](https://user-images.githubusercontent.com/87048623/129999240-6dafc1c9-0bca-4a43-8cb3-a98071a319fb.png)
+![image](https://user-images.githubusercontent.com/87048693/131695591-12ff4e17-65d0-41e3-b7c0-2acae6db4f56.png)
 
 
 ## 폴리글랏 퍼시스턴스
