@@ -319,7 +319,7 @@ public interface PaymentService {
         //payment.setCardno(this.cardno);
         BeanUtils.copyProperties(ordered, payment);
         payment.setOrderId(this.id.toString());
-        payment.setStatus("Ordered22");
+        payment.setStatus("Ordered OK");
         OrderApplication.applicationContext.getBean(clothingstore.external.PaymentService.class).payment(payment);        
 
     }
@@ -354,13 +354,16 @@ mvn spring-boot:run
 - 이를 위하여 결제이력에 기록을 남긴 후에 곧바로 결제승인이 되었다는 도메인 이벤트를 카프카로 송출한다(Publish)
  
 ```
-#PaymentHistory.java
+#Payment.java
 
-package hotelone;
+package clothingstore;
 
 import javax.persistence.*;
 import org.springframework.beans.BeanUtils;
-import java.util.List;
+
+@Entity
+@Table(name="Payment_table")
+public class Payment {
 
 @Entity
 @Table(name="PaymentHistory_table")
@@ -374,6 +377,7 @@ public class PaymentHistory {
         paymentApproved.setStatus("Pay Approved!!");
         BeanUtils.copyProperties(this, paymentApproved);
         paymentApproved.publishAfterCommit();
+
     }
 
 ```
@@ -383,37 +387,40 @@ public class PaymentHistory {
 ```
 # PolicyHandler.java
 
-package hotelone;
+package clothingstore;
 
 ...
 
 @Service
 public class PolicyHandler{
+    @Autowired ShippingRepository shippingRepository;
 
     @StreamListener(KafkaProcessor.INPUT)
-    public void wheneverPaymentApproved_(@Payload PaymentApproved paymentApproved){
+    public void wheneverPaymentApproved_Ship(@Payload PaymentApproved paymentApproved){
+
+        if(!paymentApproved.validate()) return;
+
+        System.out.println("\n\n##### listener Ship : " + paymentApproved.toJson() + "\n\n");
 
 
-        if(paymentApproved.isMe()){
-            System.out.println("##### listener  : " + paymentApproved.toJson());	  
-            Reservation reservation = new Reservation();
-            reservation.setStatus("Reservation Complete");
-            reservation.setOrderId(paymentApproved.getOrderId());
-            reservationRepository.save(reservation);
-            
-        }
+        Shipping shipping = new Shipping();
+        shipping.setAddress(paymentApproved.getAddress());
+        shipping.setClothingid(paymentApproved.getClothingid());
+        shipping.setCnt(paymentApproved.getCnt().toString());
+        shipping.setOrderId(paymentApproved.getId().toString());
+        shippingRepository.save(shipping);
+
     }
-    
 }
 ```
 
-reservation 시스템은 order/payment와 완전히 분리되어있으며, 이벤트 수신에 따라 처리되기 때문에, 호텔 시스템이 유지보수로 인해 잠시 내려간 상태라도 예약 주문을 받는데 문제가 없다.
+shipping 시스템은 order/payment와 완전히 분리되어있으며, 이벤트 수신에 따라 처리되기 때문에, 호텔 시스템이 유지보수로 인해 잠시 내려간 상태라도 예약 주문을 받는데 문제가 없다.
 
 ```
-# 예약 서비스 (reservation) 를 잠시 내려놓음 (ctrl+c)
+# 예약 서비스 (shipping) 를 잠시 내려놓음 (ctrl+c)
 
 # 주문 처리
-http localhost:8081/orders name=Yoo roomType=standard   #Success
+http http://localhost:8088/orders clothingid='HO' price=1200 address='BKhouse' cnt=1 cardno='5524'   #Success
 ```
 ![image](https://user-images.githubusercontent.com/87048623/129999950-ca9b0a5c-1b87-4eff-af3c-8b7fc4651ad0.png)
 
