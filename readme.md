@@ -447,20 +447,24 @@ http http://localhost:8088/myPages/1   # 상태가 "Shipped"로 확인
 API gateway 를 통해 MSA 진입점을 통일 시킨다.
 
 ```
-# gateway 기동(8080 포트)
-cd gateway
-mvn spring-boot:run
+# gateway 기동(8088 포트)
+C:\dev\vs\clothing-store\gateway
+mvn spring-boot:run 
 
-# API gateway를 통한 예약 주문
-http localhost:8080/orders name=jason roomType=suite
+# API gateway를 통한 주문
+http http://localhost:8088/orders clothingid='HO' price=1200 address='BKhouse' cnt=1 cardno='5524'
 ```
-![image](https://user-images.githubusercontent.com/87048623/130000185-6ecac4c7-1f74-4c2e-8c61-3e1f152f42ac.png)
+![image](https://user-images.githubusercontent.com/87048693/131705041-e7ec2a7a-3b4e-4e5b-b2c5-22bbed6039cd.png)
+
 
 ```
 application.yml
 
 server:
   port: 8080
+
+---server:
+  port: 8088
 
 ---
 
@@ -473,18 +477,18 @@ spring:
           uri: http://localhost:8081
           predicates:
             - Path=/orders/** 
-        - id: reservation
+        - id: shipping
           uri: http://localhost:8082
           predicates:
-            - Path=/reservations/**,/cancellations/** 
+            - Path=/shippings/** 
         - id: payment
           uri: http://localhost:8083
           predicates:
-            - Path=/paymentHistories/** 
-        - id: customer
+            - Path=/payments/** 
+        - id: mypage
           uri: http://localhost:8084
           predicates:
-            - Path= /mypages/**
+            - Path= /myPages/**
       globalcors:
         corsConfigurations:
           '[/**]':
@@ -508,18 +512,18 @@ spring:
           uri: http://order:8080
           predicates:
             - Path=/orders/** 
-        - id: reservation
-          uri: http://reservation:8080
+        - id: shipping
+          uri: http://shipping:8080
           predicates:
-            - Path=/reservations/**,/cancellations/** 
+            - Path=/shippings/** 
         - id: payment
           uri: http://payment:8080
           predicates:
-            - Path=/paymentHistories/** 
-        - id: customer
-          uri: http://customer:8080
+            - Path=/payments/** 
+        - id: mypage
+          uri: http://mypage:8080
           predicates:
-            - Path= /mypages/**
+            - Path= /myPages/**
       globalcors:
         corsConfigurations:
           '[/**]':
@@ -530,10 +534,6 @@ spring:
             allowedHeaders:
               - "*"
             allowCredentials: true
-            
-logging:
-  level:
-    root: debug
 
 server:
   port: 8080
