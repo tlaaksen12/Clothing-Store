@@ -540,3 +540,102 @@ server:
 # 운영
 
 ## CI/CD 설정
+
+각 구현체들은 각자의 source repository 에 구성되었고, 사용한 CI/CD 플랫폼은 AWS를 사용하였으며, pipeline build script 는 각 프로젝트 폴더 이하에 cloudbuild.yml 에 포함되었다.
+
+![image](https://user-images.githubusercontent.com/87048693/131858068-bba72e51-8d87-484a-b7f8-18a35c44205d.png)
+
+
+
+## 동기식 호출 / 서킷 브레이킹 / 장애격리
+
+
+
+### 부하테스트
+
+![image](https://user-images.githubusercontent.com/87048623/130191301-54b272bf-6bbc-4287-8ade-e73ae575d0ce.png)
+
+![image](https://user-images.githubusercontent.com/87048623/130191372-33aa0803-80cd-449a-bfbb-029c1aa0585f.png)
+
+![image](https://user-images.githubusercontent.com/87048623/130191449-a48f375a-318f-4df8-bc79-dcfc29be4e40.png)
+
+
+
+## ConfigMap
+
+Customer 서비스의 configMap 설정
+
+-configmap.yml
+
+![image](https://user-images.githubusercontent.com/87048623/130187231-4ff38fc9-6958-4a83-868c-edb4849de0f5.png)
+
+
+- deployment.yml
+
+![image](https://user-images.githubusercontent.com/87048623/130187320-156a1c4e-abb2-445f-b905-bb7bd4304e6e.png)
+
+
+시스템별로 또는 운영중에 동적으로 변경 가능성이 있는 설정들을 ConfigMap을 사용하여 관리합니다.
+
+kubectl describe pod/customer-55bcc4b5c6-mrswl
+
+![image](https://user-images.githubusercontent.com/87048623/130187675-48fa9866-2a3f-4c6f-8c12-7511040fa928.png)
+
+
+
+
+
+
+## 무정지 재배포
+
+* 먼저 무정지 재배포가 100% 되는 것인지 확인하기 위해서 Autoscaler 이나 CB 설정을 제거함
+
+- seige 로 배포작업 직전에 워크로드를 모니터링 함.
+```
+siege -v -c100 -t60S -r10 --content-type "application/json" 'http://user01-order-test:8080/paymentHistories'
+```
+![image](https://user-images.githubusercontent.com/87048623/130171580-b34cd2e2-9166-49b5-b3fd-902a6f212a14.png)
+
+
+- payment 서비스의 yaml 파일에 Readiness 설정되어 있음
+
+![image](https://user-images.githubusercontent.com/87048623/130171760-6f06612b-2cc0-46e4-a683-e7d557019daf.png)
+
+
+- CI/CD CodeBuild 를 통한 재배포 
+
+![image](https://user-images.githubusercontent.com/87048623/130171968-d2f0ad7e-d7bd-425a-b20e-4d21b1b20e49.png)
+
+
+- payment 서비스 재배포 시 새로운 서비스가 완전히 구동되기 전까지 기존 서비스가 구동된다. 
+
+![image](https://user-images.githubusercontent.com/87048623/130170983-ca76b3db-fea8-466c-b3e4-b468d4339836.png)
+
+
+- 배포기간 동안 Availability 가 변화없기 때문에 무정지 재배포가 성공한 것으로 확인됨.
+
+![image](https://user-images.githubusercontent.com/87048623/130171606-38c3f1b2-ec20-40d5-b0b1-92b3ffd1b425.png)
+
+
+# Liveness
+
+Payment 배포시 yaml 파일내 Liveness 설정되어 있음.
+
+![image](https://user-images.githubusercontent.com/87048623/130187084-089333e5-dcc9-420f-98f9-8542b7b2e0c7.png)
+
+
+
+![image](https://user-images.githubusercontent.com/87048623/130185233-aba544d2-3ad5-402b-b3ae-6166b9138c4b.png)
+
+
+정상 작동 여부 확인을 위해 기존 payment pod를 삭제함.
+
+![image](https://user-images.githubusercontent.com/87048623/130186240-c93e8174-fbe1-4c42-af75-9175fa1e1aef.png)
+
+
+정상적으로 재생성 되는 것 확인
+
+![image](https://user-images.githubusercontent.com/87048623/130186270-9930963b-c4f0-477b-9526-73b3f0969f17.png)
+
+![image](https://user-images.githubusercontent.com/87048623/130186300-6c9934f3-70e0-41b3-82e9-85abd76135cd.png)
+
