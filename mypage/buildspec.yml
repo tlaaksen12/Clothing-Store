@@ -2,7 +2,7 @@ version: 0.2
 
 env: 
   variables:
-    _PROJECT_NAME: "user01-customer-01"
+    _PROJECT_NAME: "user09-mypage"
 
 phases:
   install:
