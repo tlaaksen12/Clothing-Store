@@ -63,8 +63,8 @@
 
 1. order의 주문, ship의 배송, payment의 결제, customer의 mypage 등은 그와 연결된 command 와 event 들에 의하여 트랜잭션이 유지되어야 하는 단위로 그들 끼리 묶어줌(바운디드 컨텍스트)
 1. 도메인 서열 분리 
-   - Core Domain:  order, ship
-   - Supporting Domain: customer
+   - Core Domain:  order, shipping
+   - Supporting Domain: mypage
    - General Domain : payment
 
 
