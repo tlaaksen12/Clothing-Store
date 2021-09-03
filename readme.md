@@ -592,14 +592,15 @@ kubectl describe pod/customer-55bcc4b5c6-mrswl
 
 - seige 로 배포작업 직전에 워크로드를 모니터링 함.
 ```
-siege -v -c100 -t60S -r10 --content-type "application/json" 'http://user01-order-test:8080/paymentHistories'
+siege -c30 -t30S -v --content-type "application/json" 'http://user09-order:8080/orders POST {"price": 1000}'
 ```
 ![image](https://user-images.githubusercontent.com/87048623/130171580-b34cd2e2-9166-49b5-b3fd-902a6f212a14.png)
 
 
 - payment 서비스의 yaml 파일에 Readiness 설정되어 있음
 
-![image](https://user-images.githubusercontent.com/87048623/130171760-6f06612b-2cc0-46e4-a683-e7d557019daf.png)
+![image](https://user-images.githubusercontent.com/87048693/131933226-07e36ad3-f2ff-458c-865f-36e8258e05dd.png)
+
 
 
 - CI/CD CodeBuild 를 통한 재배포 
