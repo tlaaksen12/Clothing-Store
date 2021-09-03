@@ -581,6 +581,7 @@ Customer 서비스의 configMap 설정
 ![image](https://user-images.githubusercontent.com/87048693/131940895-2937843d-e6d8-474b-a615-6a72b3926267.png)
 
 application.yml에 ConfigMap 적용
+
 ![image](https://user-images.githubusercontent.com/87048693/131941018-6cbd5fcc-a220-4104-9678-d387c4f4c3cd.png)
 
 
@@ -590,8 +591,6 @@ kubectl apply -f configmap.yml
 
 
 ![image](https://user-images.githubusercontent.com/87048693/131941101-df0044b0-2493-4111-ba5c-298abf7b5b6e.png)
-
-
 
 
 
