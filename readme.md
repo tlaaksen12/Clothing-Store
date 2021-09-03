@@ -550,15 +550,21 @@ server:
 ## 서킷 브레이킹 / 장애격리
 
 
+buildspec.yml 파일에 hstric을 설정하여 timeout을 선언
+
+![image](https://user-images.githubusercontent.com/87048693/131937284-7b5c8d87-3702-47f7-bedd-857becfb9b5e.png)
+
+
+reponse인 payment의 PostPersist에 sleep값을 랜덤으로 지정
+![image](https://user-images.githubusercontent.com/87048693/131937501-d6e00c0e-bd69-44a5-a4b6-2b63c6bcb31f.png)
+
+
 
 ### 부하테스트
 
-![image](https://user-images.githubusercontent.com/87048623/130191301-54b272bf-6bbc-4287-8ade-e73ae575d0ce.png)
+![image](https://user-images.githubusercontent.com/87048693/131937783-0f3e1017-6c23-4e3f-a069-cb66bfa2eeb9.png)
 
-![image](https://user-images.githubusercontent.com/87048623/130191372-33aa0803-80cd-449a-bfbb-029c1aa0585f.png)
-
-![image](https://user-images.githubusercontent.com/87048623/130191449-a48f375a-318f-4df8-bc79-dcfc29be4e40.png)
-
+![image](https://user-images.githubusercontent.com/87048693/131937763-cb55e163-f9ed-4e28-acdf-1f6ba689a5e5.png)
 
 
 ## ConfigMap
