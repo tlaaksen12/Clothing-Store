@@ -597,7 +597,7 @@ siege -c30 -t500S -v --content-type "application/json" 'http://user09-order:8080
 ![image](https://user-images.githubusercontent.com/87048623/130171580-b34cd2e2-9166-49b5-b3fd-902a6f212a14.png)
 
 
-- payment 서비스의 yaml 파일에 Readiness 설정되어 있음
+- order 서비스의 yaml 파일에 Readiness 설정되어 있음
 
 ![image](https://user-images.githubusercontent.com/87048693/131933226-07e36ad3-f2ff-458c-865f-36e8258e05dd.png)
 
@@ -605,17 +605,19 @@ siege -c30 -t500S -v --content-type "application/json" 'http://user09-order:8080
 
 - CI/CD CodeBuild 를 통한 재배포 
 
-![image](https://user-images.githubusercontent.com/87048623/130171968-d2f0ad7e-d7bd-425a-b20e-4d21b1b20e49.png)
+![image](https://user-images.githubusercontent.com/87048693/131935220-bd8e2cee-ef00-4048-abe7-a39b99253334.png)
+
 
 
 - order 서비스 재배포 시 새로운 서비스가 완전히 구동되기 전까지 기존 서비스가 구동된다. 
 
-![image](https://user-images.githubusercontent.com/87048623/130170983-ca76b3db-fea8-466c-b3e4-b468d4339836.png)
+![image](https://user-images.githubusercontent.com/87048693/131935271-421a2d51-ac6a-42aa-a31a-c7d49ab0fb18.png)
+
 
 
 - 배포기간 동안 Availability 가 변화없기 때문에 무정지 재배포가 성공한 것으로 확인됨.
 
-![image](https://user-images.githubusercontent.com/87048623/130171606-38c3f1b2-ec20-40d5-b0b1-92b3ffd1b425.png)
+![image](https://user-images.githubusercontent.com/87048693/131935292-6951a086-0c44-4681-826c-3f3c4848897e.png)
 
 
 # Liveness
