@@ -619,23 +619,13 @@ siege -v -c100 -t60S -r10 --content-type "application/json" 'http://user01-order
 
 # Liveness
 
-Payment 배포시 yaml 파일내 Liveness 설정되어 있음.
+order 배포시 yaml 파일내에 Liveness가 설정되어 있음.
+command 명령어를 통해 오류 발생을 확인
+![image](https://user-images.githubusercontent.com/87048693/131932365-fbe39147-8c0a-4d48-bef5-c70939d94052.png)
 
-![image](https://user-images.githubusercontent.com/87048623/130187084-089333e5-dcc9-420f-98f9-8542b7b2e0c7.png)
+서비스 재 기동 후 order pod 생성 확인
+![image](https://user-images.githubusercontent.com/87048693/131932470-47911424-192f-49fe-905d-0348db0022ad.png)
 
-
-
-![image](https://user-images.githubusercontent.com/87048623/130185233-aba544d2-3ad5-402b-b3ae-6166b9138c4b.png)
-
-
-정상 작동 여부 확인을 위해 기존 payment pod를 삭제함.
-
-![image](https://user-images.githubusercontent.com/87048623/130186240-c93e8174-fbe1-4c42-af75-9175fa1e1aef.png)
-
-
-정상적으로 재생성 되는 것 확인
-
-![image](https://user-images.githubusercontent.com/87048623/130186270-9930963b-c4f0-477b-9526-73b3f0969f17.png)
-
-![image](https://user-images.githubusercontent.com/87048623/130186300-6c9934f3-70e0-41b3-82e9-85abd76135cd.png)
+일정 시간이 지난 후 order 파일이 삭제가 되어 이상감지를 파악하고 pod를 재생성
+![image](https://user-images.githubusercontent.com/87048693/131932508-b1fb6b8e-e600-46e5-afdf-195d3255f878.png)
 
