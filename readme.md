@@ -555,7 +555,8 @@ buildspec.yml 파일에 hstric을 설정하여 timeout을 선언
 ![image](https://user-images.githubusercontent.com/87048693/131937284-7b5c8d87-3702-47f7-bedd-857becfb9b5e.png)
 
 
-reponse인 payment의 PostPersist에 sleep값을 랜덤으로 지정
+response인 payment의 PostPersist에 sleep값을 랜덤으로 지정
+
 ![image](https://user-images.githubusercontent.com/87048693/131937501-d6e00c0e-bd69-44a5-a4b6-2b63c6bcb31f.png)
 
 
