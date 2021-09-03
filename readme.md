@@ -592,7 +592,7 @@ kubectl describe pod/customer-55bcc4b5c6-mrswl
 
 - seige 로 배포작업 직전에 워크로드를 모니터링 함.
 ```
-siege -c30 -t30S -v --content-type "application/json" 'http://user09-order:8080/orders POST {"price": 1000}'
+siege -c30 -t500S -v --content-type "application/json" 'http://user09-order:8080/orders POST {"price": 1000}'
 ```
 ![image](https://user-images.githubusercontent.com/87048623/130171580-b34cd2e2-9166-49b5-b3fd-902a6f212a14.png)
 
@@ -608,7 +608,7 @@ siege -c30 -t30S -v --content-type "application/json" 'http://user09-order:8080/
 ![image](https://user-images.githubusercontent.com/87048623/130171968-d2f0ad7e-d7bd-425a-b20e-4d21b1b20e49.png)
 
 
-- payment 서비스 재배포 시 새로운 서비스가 완전히 구동되기 전까지 기존 서비스가 구동된다. 
+- order 서비스 재배포 시 새로운 서비스가 완전히 구동되기 전까지 기존 서비스가 구동된다. 
 
 ![image](https://user-images.githubusercontent.com/87048623/130170983-ca76b3db-fea8-466c-b3e4-b468d4339836.png)
 
